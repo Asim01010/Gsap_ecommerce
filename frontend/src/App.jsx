@@ -1,20 +1,20 @@
 import React from "react";
-import Login from "./auth/Login";
-import Register from "./auth/Register";
+import Login from "./Client/auth/Login";
+import Register from "./Client/auth/Register";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import EcommerceHomepage from "./pages/EcommerceHomepage";
-import SingleProduct from "./pages/SingleProduct";
-import AllProducts from "./pages/AllProducts";
-import Cart from "./pages/Cart";
-import Blog from "./pages/Blog";
-import UserProfile from "./pages/UserProfile";
-import SocialProductFeed from "./pages/SocialProductFeed";
-import Layout from "./components/Layout";
-import Categories from "./pages/Categories";
-import Deals from "./pages/Deals";
-import Trending from "./pages/Trending";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import EcommerceHomepage from "./Client/pages/EcommerceHomepage";
+import SingleProduct from "./Client/pages/SingleProduct";
+import AllProducts from "./Client/pages/AllProducts";
+import Cart from "./Client/pages/Cart";
+import Blog from "./Client/pages/Blog";
+import UserProfile from "./Client/pages/UserProfile";
+import SocialProductFeed from "./Client/pages/SocialProductFeed";
+import Layout from "./Client/components/Layout";
+import Categories from "./Client/pages/Categories";
+import Deals from "./Client/pages/Deals";
+import Trending from "./Client/pages/Trending";
+import Navbar from "./Client/components/Navbar";
+import Footer from "./Client/components/Footer";
 const App = () => {
   return (
     <div>

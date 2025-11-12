@@ -22,7 +22,7 @@ const Navbar = () => {
     { path: "/home", label: "Home", icon: "🏠" },
     { path: "/all-products", label: "Products", icon: "📦" },
     // { path: "/categories", label: "Categories", icon: "📊" },
-    { path: "/deals", label: "Hot Deals", icon: "🔥" },
+    { path: "/deals", label: "Deals", icon: "🔥" },
     // { path: "/trending", label: "Trending", icon: "🚀" },
     { path: "/blog", label: "Blog", icon: "📝" },
     // { path: "/cart", label: "Cart", icon: "🛒" },
@@ -212,7 +212,7 @@ const Navbar = () => {
             {/* Logo */}
             <Link
               ref={logoRef}
-              to="/"
+              to="/home"
               className="flex items-center space-x-3 interactive group"
             >
               <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
@@ -285,16 +285,24 @@ const Navbar = () => {
 
               {/* Cart & User (Desktop) */}
               <div className="hidden md:flex items-center space-x-3">
-                <button className="relative w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-colors duration-200 interactive group">
-                  <span className="text-lg">🛒</span>
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold group-hover:scale-110 transition-transform duration-200">
-                    3
-                  </span>
-                </button>
-
-                <button className="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center text-white font-semibold hover:shadow-lg transition-all duration-200 interactive">
-                  J
-                </button>
+                <Link to="/cart">
+                  <button className="relative w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-colors duration-200 interactive group">
+                    <span className="text-lg">🛒</span>
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold group-hover:scale-110 transition-transform duration-200">
+                      3
+                    </span>
+                  </button>
+                </Link>
+                <Link to="/register">
+                  <button className="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center text-white font-semibold hover:shadow-lg transition-all duration-200 interactive">
+                    🙋‍♂️
+                  </button>
+                </Link>
+                <Link to="/login">
+                  <button className="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center text-white font-semibold hover:shadow-lg transition-all duration-200 interactive">
+                    🤷‍♂️
+                  </button>
+                </Link>
               </div>
 
               {/* Mobile Menu Button */}
