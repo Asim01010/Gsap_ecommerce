@@ -15,9 +15,12 @@ import Deals from "./Client/pages/Deals";
 import Trending from "./Client/pages/Trending";
 import Navbar from "./Client/components/Navbar";
 import Footer from "./Client/components/Footer";
+import { Toaster } from "react-hot-toast";
+
 const App = () => {
   return (
     <div>
+      <Toaster position="bottom-left" />
       <Router>
         <Navbar />
         <Layout />

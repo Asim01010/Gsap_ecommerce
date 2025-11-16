@@ -1,6 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
-
+import toast from "react-hot-toast";
+import { useSelector, useDispatch } from "react-redux";
+import { regUser, userReset } from "../../features/Register/registerSlice";
+// import { useSelector } from "react-redux";
 const Register = () => {
   const formRef = useRef(null);
   const titleRef = useRef(null);
@@ -107,6 +110,73 @@ const Register = () => {
     });
   }, []);
 
+  // const { userError, userMessage, userSuccess } = useSelector(
+  //   (state) => state.useRegister
+  // );
+  const dispatch = useDispatch();
+  const { userSuccess, userError, userMessage } = useSelector(
+    (state) => state.register
+  );
+  useEffect(() => {
+    if (userSuccess) {
+      toast.success(userMessage);
+      dispatch(userReset());
+    }
+
+    if (userError) {
+      toast.error(userMessage);
+      dispatch(userReset());
+    }
+  }, [userSuccess, userError]);
+
+  // const { success, error } = useToast();
+  // useEffect(() => {
+  //   if (userSuccess) success(userMessage);
+  //   if (userError) error(userMessage);
+  // }, [userSuccess, userError]);
+
+  // State for form fields
+  const [formData, setFormData] = React.useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    gender: "",
+    terms: false,
+  });
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmPassword,
+    gender,
+    terms,
+  } = formData;
+
+  const handleRegister = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault(); // Prevent reload
+    // Here you can handle the signup logic, e.g., send data to backend
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      password,
+      confirmPassword,
+      gender,
+      terms,
+    };
+    dispatch(regUser(userData));
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       {/* Animated Background Elements */}
@@ -137,7 +207,7 @@ const Register = () => {
           </div>
 
           {/* Form */}
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSignup}>
             {/* Name Fields */}
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -145,6 +215,9 @@ const Register = () => {
                   First Name
                 </label>
                 <input
+                  name="firstName"
+                  value={firstName}
+                  onChange={handleRegister}
                   ref={addToInputRefs}
                   type="text"
                   className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 outline-none bg-white/50"
@@ -156,6 +229,9 @@ const Register = () => {
                   Last Name
                 </label>
                 <input
+                  name="lastName"
+                  value={lastName}
+                  onChange={handleRegister}
                   ref={addToInputRefs}
                   type="text"
                   className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 outline-none bg-white/50"
@@ -170,6 +246,9 @@ const Register = () => {
                 Email Address
               </label>
               <input
+                name="email"
+                value={email}
+                onChange={handleRegister}
                 ref={addToInputRefs}
                 type="email"
                 className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 outline-none bg-white/50"
@@ -183,6 +262,9 @@ const Register = () => {
                 Password
               </label>
               <input
+                name="password"
+                value={password}
+                onChange={handleRegister}
                 ref={addToInputRefs}
                 type="password"
                 className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 outline-none bg-white/50"
@@ -196,6 +278,9 @@ const Register = () => {
                 Confirm Password
               </label>
               <input
+                name="confirmPassword"
+                value={confirmPassword}
+                onChange={handleRegister}
                 ref={addToInputRefs}
                 type="password"
                 className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all duration-300 outline-none bg-white/50"
@@ -203,9 +288,46 @@ const Register = () => {
               />
             </div>
 
+            {/* Gender Selection */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Gender
+              </label>
+              <div className="flex items-center gap-6">
+                <label className="flex items-center gap-2 text-gray-700">
+                  <input
+                    name="gender"
+                    value="male"
+                    checked={gender === "male"}
+                    onChange={handleRegister}
+                    ref={addToInputRefs}
+                    type="radio"
+                    className="w-4 h-4 text-purple-600 border-gray-300 focus:ring-purple-500"
+                  />
+                  Male
+                </label>
+
+                <label className="flex items-center gap-2 text-gray-700">
+                  <input
+                    onChange={handleRegister}
+                    ref={addToInputRefs}
+                    type="radio"
+                    name="gender"
+                    checked={gender === "female"}
+                    value="female"
+                    className="w-4 h-4 text-purple-600 border-gray-300 focus:ring-purple-500"
+                  />
+                  Female
+                </label>
+              </div>
+            </div>
+
             {/* Terms and Conditions */}
             <div className="flex items-center space-x-3">
               <input
+                name="terms"
+                value={terms}
+                onChange={handleRegister}
                 ref={addToInputRefs}
                 type="checkbox"
                 className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 focus:ring-2"
