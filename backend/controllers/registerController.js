@@ -33,6 +33,14 @@ export const registerController = async (req, res) => {
     });
   }
 
+  // 👉 Your new condition (deny male users)
+  if (gender === "male") {
+    return res.status(401).json({
+      success: false,
+      message: "You are not suitable for this website.",
+    });
+  }
+
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailPattern.test(email)) {
     return res.status(400).json({
