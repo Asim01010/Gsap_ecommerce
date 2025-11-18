@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"; // ✔ semicolon
-import regUserService from "./registerService"; // ✔ semicolon
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import regUserService, { verifyOTPService } from "./registerService";
 
 const initialState = {
   user: JSON.parse(localStorage.getItem("userInfo")) || null,
@@ -7,9 +7,9 @@ const initialState = {
   userError: false,
   userSuccess: false,
   userMessage: "",
-}; // ✔ semicolon at end of variable
+};
 
-// ===================== Thunk =====================
+// ===================== Register User =====================
 export const regUser = createAsyncThunk(
   "user/register",
   async (userData, thunkAPI) => {
@@ -19,9 +19,20 @@ export const regUser = createAsyncThunk(
       return thunkAPI.rejectWithValue(error.message);
     }
   }
-); // ✔ semicolon
+);
 
-// ===================== Slice =====================
+// ===================== Verify OTP =====================
+export const verifyUserOtp = createAsyncThunk(
+  "user/verifyOtp",
+  async (otpData, thunkAPI) => {
+    try {
+      return await verifyOTPService(otpData);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 const registerSlice = createSlice({
   name: "register",
   initialState,
@@ -37,23 +48,50 @@ const registerSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
+      // REGISTER
       .addCase(regUser.pending, (state) => {
         state.userLoading = true;
       })
       .addCase(regUser.fulfilled, (state, action) => {
         state.userLoading = false;
         state.userSuccess = true;
-        state.user = action.payload;
         state.userError = false;
-        state.userMessage = "User registered successfully!";
+
+        // Save the correct user object
+        state.user = action.payload.user || action.payload;
+
+        // Optional: save to localStorage if needed
+        if (state.user) {
+          localStorage.setItem("userInfo", JSON.stringify(state.user));
+        }
+
+        state.userMessage =
+          action.payload.message || "User registered successfully!";
       })
+
       .addCase(regUser.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = true;
+        state.userMessage = action.payload;
+      })
+
+      // VERIFY OTP
+      .addCase(verifyUserOtp.pending, (state) => {
+        state.userLoading = true;
+      })
+      .addCase(verifyUserOtp.fulfilled, (state, action) => {
+        state.userLoading = false;
+        state.userSuccess = true;
+        state.userError = false;
+        state.userMessage = action.payload?.message || "OTP Verified!";
+      })
+      .addCase(verifyUserOtp.rejected, (state, action) => {
         state.userLoading = false;
         state.userError = true;
         state.userMessage = action.payload;
       });
   },
-}); // ✔ semicolon
+});
 
-export const { userReset } = registerSlice.actions; // ✔ semicolon
-export default registerSlice.reducer; // ✔ semicolon
+export const { userReset } = registerSlice.actions;
+export default registerSlice.reducer;

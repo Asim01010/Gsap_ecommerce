@@ -31,6 +31,11 @@ const registerSchema = new mongoose.Schema(
       type: Boolean,
       required: [true, "Terms acceptance is required."],
     },
+    otp: {
+      type: Number,
+      default: null,
+    },
+    isVerified: { type: Boolean, default: false },
   },
   {
     timestamps: true,

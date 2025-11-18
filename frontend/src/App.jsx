@@ -16,6 +16,7 @@ import Trending from "./Client/pages/Trending";
 import Navbar from "./Client/components/Navbar";
 import Footer from "./Client/components/Footer";
 import { Toaster } from "react-hot-toast";
+import OTPVerification from "./Client/auth/OTPVerification";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Layout />
 
         <Routes>
+          <Route path="/otpVerify/:id" element={<OTPVerification />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/home" element={<EcommerceHomepage />} />

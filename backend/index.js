@@ -14,9 +14,10 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", product);
-app.use("/", router);
-app.use("/register", RegisterRoute);
+app.use("/api/products", product);
+app.use("/api/users", router);
+app.use("/api/register", RegisterRoute);
+
 app.use(errorMsg);
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`.rainbow);

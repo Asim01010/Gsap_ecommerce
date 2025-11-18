@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import gsap from "gsap";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -190,6 +191,8 @@ const Navbar = () => {
     }
   };
 
+  const { user } = useSelector((state) => state.register);
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     // Handle search logic here
@@ -220,7 +223,7 @@ const Navbar = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-2xl font-black bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-200">
-                  ShopHub
+                  {user?.lastName}ShopHub
                 </span>
                 <div className="w-full h-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full transform origin-left group-hover:scale-x-100 scale-x-0 transition-transform duration-300"></div>
               </div>
@@ -228,7 +231,7 @@ const Navbar = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-1">
-              {navItems.map((item, index) => (
+              {navItems.map((item) => (
                 <Link
                   key={item.path}
                   ref={addToMenuItemsRefs}
@@ -404,7 +407,7 @@ const Navbar = () => {
 
             {/* Mobile Navigation */}
             <div className="p-6 space-y-2">
-              {navItems.map((item, index) => (
+              {navItems.map((item) => (
                 <Link
                   key={item.path}
                   to={item.path}

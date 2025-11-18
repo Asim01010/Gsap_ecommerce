@@ -3,7 +3,8 @@ import gsap from "gsap";
 import toast from "react-hot-toast";
 import { useSelector, useDispatch } from "react-redux";
 import { regUser, userReset } from "../../features/Register/registerSlice";
-// import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 const Register = () => {
   const formRef = useRef(null);
   const titleRef = useRef(null);
@@ -124,14 +125,20 @@ const Register = () => {
   // const { userError, userMessage, userSuccess } = useSelector(
   //   (state) => state.useRegister
   // );
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { userSuccess, userError, userMessage } = useSelector(
-    (state) => state.register
-  );
+  const { user, userSuccess, userError, userMessage, userLoading } =
+    useSelector((state) => state.register);
   useEffect(() => {
     if (userSuccess) {
       toast.success(userMessage);
       dispatch(userReset());
+    }
+
+    if (userSuccess) {
+      // after registration
+      navigate(`/otpVerify/${user._id}`);
+      // Replace "/some-path" with the desired route after successful registration
     }
 
     if (userError) {
@@ -212,7 +219,7 @@ const Register = () => {
               ref={titleRef}
               className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2"
             >
-              Create Account
+              {userLoading ? "Creating Account..." : "Create Account"}
             </h1>
             <p className="text-gray-600 text-lg">Join our community today</p>
           </div>
